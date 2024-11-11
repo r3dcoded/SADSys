@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Receipt</title>
+</head>
+<style>/* Reset styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Circular', sans-serif;
+    }
+    
+    /* Body styling */
+    body {
+        background-color: #1b1b1b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #f5f5f5;
+    }
+    
+    /* Main container styling */
+    .receipt-container {
+        background-color: #2e2e2e;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 0.6s ease;
+    }
+    
+    /* Header styling */
+    .receipt-container h1 {
+        color: #4caf50;
+        margin-bottom: 1.5rem;
+        font-size: 1.8em;
+    }
+    
+    /* Content styling */
+    .receipt-container p {
+        margin: 1rem 0;
+        font-size: 1.1em;
+        color: #ddd;
+    }
+    
+    .receipt-container p strong {
+        color: #4caf50;
+    }
+    
+    /* Link styling */
+    .receipt-container a {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #4caf50;
+        color: #f5f5f5;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
+    
+    .receipt-container a:hover {
+        background-color: #45a049;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    </style>
+<body>
+    <div class="receipt-container">
+        <h1>Employee Clock-In/Clock-Out Receipt</h1>
+        <p><strong>Employee ID:</strong> {{ employee_id }}</p>
+        <p><strong>Clock-In Time:</strong> {{ clock_in_time }}</p>
+        <p><strong>Clock-Out Time:</strong> {{ clock_out_time }}</p>
+        <p><strong>Hours Worked:</strong> {{ hours_worked }}</p>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

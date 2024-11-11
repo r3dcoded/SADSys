@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+</head>
+<style>/* Reset styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Circular', sans-serif;
+    }
+    
+    /* Body styling */
+    body {
+        background-color: #1b1b1b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #f5f5f5;
+    }
+    
+    /* Main container styling */
+    .edit-container {
+        background-color: #2e2e2e;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 100%;
+        animation: fadeIn 0.6s ease;
+    }
+    
+    /* Header styling */
+    .edit-container h1 {
+        color: #4caf50;
+        margin-bottom: 1.5rem;
+        font-size: 1.8em;
+        text-align: center;
+    }
+    
+    /* Label styling */
+    label {
+        display: block;
+        margin-top: 1rem;
+        color: #ddd;
+    }
+    
+    /* Input and select styling */
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: 100%;
+        padding: 0.6rem;
+        margin-top: 0.5rem;
+        border: 1px solid #555;
+        border-radius: 6px;
+        font-size: 1rem;
+        background-color: #1f1f1f;
+        color: #f5f5f5;
+    }
+    
+    /* Button styling */
+    button {
+        width: 100%;
+        padding: 0.8rem;
+        margin-top: 1.5rem;
+        background-color: #4caf50;
+        border: none;
+        border-radius: 6px;
+        color: #f5f5f5;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+    
+    /* Link styling */
+    .edit-container a {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #4caf50;
+        color: #f5f5f5;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+        text-align: center;
+    }
+    
+    .edit-container a:hover {
+        background-color: #45a049;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    </style>
+<body>
+    <div class="edit-container">
+        <h1>Edit Employee</h1>
+        <form action="{{ url_for('update_employee', id=employee.id) }}" method="POST">
+            <label for="employee_id">Employee ID:</label>
+            <input type="text" id="employee_id" name="employee_id" value="{{ employee.employee_id }}" readonly>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ employee.name }}" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="{{ employee.address }}">
+
+            <label for="position_id">Position:</label>
+            <select id="position_id" name="position_id" required>
+                {% for position in positions %}
+                <option value="{{ position.id }}" {% if position.id == employee.position_id %}selected{% endif %}>{{ position.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="schedule_id">Schedule:</label>
+            <select id="schedule_id" name="schedule_id" required>
+                {% for schedule in schedules %}
+                <option value="{{ schedule.id }}" {% if schedule.id == employee.schedule_id %}selected{% endif %}>{{ schedule.schedule_name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="salary_id">Salary:</label>
+            <select id="salary_id" name="salary_id">
+                {% for salary in salaries %}
+                <option value="{{ salary.id }}" {% if salary.id == employee.salary_id %}selected{% endif %}>{{ salary.hourly_rate }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="site_id">Site:</label>
+            <select id="site_id" name="site_id">
+                {% for site in sites %}
+                <option value="{{ site.id }}" {% if site.id == employee.site_id %}selected{% endif %}>{{ site.site_name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="contact_number">Contact Number:</label>
+            <input type="text" id="contact_number" name="contact_number" value="{{ employee.contact_number }}">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ employee.email }}">
+
+            <button type="submit">Update Employee</button>
+        </form>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

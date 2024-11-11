@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Clock In/Out</title>
+</head>
+<style>/* Reset styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Circular', sans-serif;
+    }
+    
+    /* General body styling */
+    body {
+        background-color: #1b1b1b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        color: #f5f5f5;
+    }
+    
+    /* Main container styling */
+    .container {
+        text-align: center;
+        background-color: #2e2e2e;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        animation: fadeIn 0.6s ease;
+    }
+    
+    /* Header styling */
+    .container h1 {
+        color: #4caf50;
+        margin-bottom: 1.5rem;
+        font-size: 1.8em;
+    }
+    
+    /* Form label and input styling */
+    .container label {
+        display: block;
+        margin: 1rem 0 0.5rem;
+        color: #bbb;
+        font-weight: bold;
+    }
+    
+    .container input[type="text"],
+    .container select {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #555;
+        border-radius: 8px;
+        background-color: #333;
+        color: #f5f5f5;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    .container input[type="text"]:focus,
+    .container select:focus {
+        border-color: #4caf50;
+        outline: none;
+    }
+    
+    /* Button styling */
+    .container button {
+        width: 100%;
+        padding: 0.75rem;
+        margin-top: 1rem;
+        background-color: #4caf50;
+        border: none;
+        border-radius: 8px;
+        color: #f5f5f5;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .container button:hover {
+        background-color: #45a049;
+    }
+    
+    /* Additional buttons styling */
+    .container #viewReceiptButton,
+    .container button[type="button"] {
+        background-color: #333;
+        border: 1px solid #4caf50;
+        color: #4caf50;
+        margin-top: 0.5rem;
+    }
+    
+    .container #viewReceiptButton:hover,
+    .container button[type="button"]:hover {
+        background-color: #4caf50;
+        color: #f5f5f5;
+    }
+    
+    /* Response message styling */
+    .container #result {
+        margin-top: 1rem;
+        color: #28a745;
+        font-weight: bold;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    </style>
+<body>
+    <div class="container">
+        <h1>Employee Clock In/Out</h1>
+        <form id="clockForm">
+            <label for="employeeId">Employee ID:</label>
+            <input type="text" id="employeeId" name="employeeId" required>
+            
+            <label for="action">Action:</label>
+            <select id="action" name="action" required>
+                <option value="in">Clock In</option>
+                <option value="out">Clock Out</option>
+            </select>
+            
+            <button type="submit">Submit</button>
+        </form>
+
+        <button id="viewReceiptButton">View Receipt</button>
+        <button onclick="location.href='/dashboard'" type="button">Admin Dashboard</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("clockForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const employeeId = document.getElementById("employeeId").value;
+            const action = document.getElementById("action").value;
+            
+            // Send data to server
+            const response = await fetch("/clock", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ employeeId, action })
+            });
+
+            const result = await response.json();
+            document.getElementById("result").innerText = result.message;
+        });
+
+        // Navigate to the receipt page when "View Receipt" button is clicked
+        document.getElementById("viewReceiptButton").addEventListener("click", function() {
+            const employeeId = document.getElementById("employeeId").value;
+            if (employeeId) {
+                // Open the receipt page in a new tab
+                window.open(`/receipt/${employeeId}`, "_blank");
+            } else {
+                alert("Please enter an Employee ID to view the receipt.");
+            }
+        });
+    </script>
+</body>
+</html>
